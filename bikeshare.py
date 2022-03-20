@@ -195,8 +195,9 @@ def trip_duration_stats(df):
     # TO DO: display mean travel time
     
     mean_travel_time = np.mean(df["Trip Duration"])
+    mean_unit_time = pd.to_timedelta(mean_travel_time, unit="s")
     print('\nCalculating Statistics...\n')
-    print("What is the average travel time? \n {}".format(mean_travel_time))
+    print("What is the average travel time? \n {}".format(mean_unit_time))
     
     
     print("\nThis took %s seconds." % (time.time() - start_time))
