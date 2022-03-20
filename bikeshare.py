@@ -1,6 +1,7 @@
 import time
 import pandas as pd
 import numpy as np
+import calendar
 
 CITY_DATA = { 'chicago': 'chicago.csv',
               'new york city': 'new_york_city.csv',
@@ -128,8 +129,9 @@ def time_stats(df):
     
     # TO DO: display the most common month   
     
-    common_month = df["month"].mode()
-    print("What is the most popular month for traveling? \n {}".format(common_month))
+    common_month = df["month"].value_counts().idxmax()
+    mode_month = calendar.month_name[common_month]
+    print("What is the most popular month for traveling? \n {}".format(mode_month))
     
     # TO DO: display the most common day of week
     
@@ -195,15 +197,17 @@ def trip_duration_stats(df):
     # TO DO: display total travel time
     
     total_travel_time = np.sum(df["Trip Duration"])
+    total_unit_time = pd.to_timedelta(total_travel_time, unit="s")
     print('\nCalculating Statistics...\n')
-    print("What is the total travel time? \n {}".format(total_travel_time))
+    print("What is the total travel time? \n {}".format(total_unit_time))
 
 
     # TO DO: display mean travel time
     
     mean_travel_time = np.mean(df["Trip Duration"])
+    mean_unit_time = pd.to_timedelta(mean_travel_time, unit="s")
     print('\nCalculating Statistics...\n')
-    print("What is the average travel time? \n {}".format(mean_travel_time))
+    print("What is the average travel time? \n {}".format(mean_unit_time))
     
     
     print("\nThis took %s seconds." % (time.time() - start_time))
