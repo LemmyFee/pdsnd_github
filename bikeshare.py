@@ -80,6 +80,17 @@ def get_filters():
 
 
 def load_data(city, month, day):
+
+    """
+    Loads data for the specified city and filters by month and day if applicable.
+
+    Args:
+        (str) city - name of the city to analyze
+        (str) month - name of the month to filter by, or "all" to apply no month filter
+        (str) day - name of the day of week to filter by, or "all" to apply no day filter
+    Returns:
+        df - Pandas DataFrame containing city data filtered by month and day
+    """
     print("\nJust a moment.....loading the data.....\n")
 #     load the data file of the cities into a dataframe
     df = pd.read_csv(CITY_DATA[city])
@@ -103,12 +114,15 @@ def load_data(city, month, day):
     if month != "none":
 #         
         months = ["january", "february", "march", "april", "may", "june"]
+        if item in months:
+            df = df[df["month"] == item]
+
 #     using the index of the months list to get the corresonding integer of the month the user wants,
 #     1 is added to the month index because the index of a list starts from 0
-        month = months.index(month) + 1
+        # month = months.index(month) + 1
     
 #     create the dataframe of the month chosen by the user
-        df = df[df["month"] == month]
+        # df = df[df["month"] == month]
         
         
 
@@ -116,7 +130,7 @@ def load_data(city, month, day):
     if day != "none":
 #         create the dataframe of the month chosen by the user
         df = df[df["day"] == day.title() ]
-       
+    
         
     return df
 
@@ -157,7 +171,7 @@ def station_stats(df):
 
     print('\nCalculating The Most Popular Stations and Trip...\n')
     start_time = time.time()
-  
+
     # TO DO: display most commonly used start station
     
     common_start_station = df["Start Station"].mode()  
@@ -272,7 +286,7 @@ def main():
         
         view_data = input("Would you like to view individual trip data (Type Yes or No): ")
 #         while True:
-        while view_data.lower() == "yes":
+        if view_data.lower() == "yes":
             display_data = df.sample(5)
             print(display_data)
             view_data = input("Would you like to view individual trip data (Type Yes or No): ")
@@ -282,8 +296,8 @@ def main():
                 break
             
             
-       
+    
 
 
 if __name__ == "__main__":
-	main()
+    main()
